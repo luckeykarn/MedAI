@@ -1,5 +1,4 @@
-
-// Enhanced Chat Functionality
+// script.js
 class MedicalChatBot {
     constructor() {
         this.chatMessages = document.getElementById('chat-messages');
