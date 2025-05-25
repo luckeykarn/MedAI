@@ -9,6 +9,60 @@
     <link rel="stylesheet" href="animations.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <style>
+    .doctor-section {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 15px;
+    }
+    .doctor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .doctor-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: 0.3s;
+    }
+    .doctor-card:hover {
+      transform: translateY(-5px);
+    }
+    .doctor-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .doctor-info {
+      padding: 16px;
+    }
+    .doctor-info h3 {
+      margin: 0 0 10px;
+      color: #4e73df;
+    }
+    .doctor-info p {
+      margin: 6px 0;
+      font-size: 14px;
+      color: #555;
+    }
+    .chat-icon {
+      margin-top: 10px;
+      display: inline-block;
+      background: #4e73df;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .chat-icon:hover {
+      background: #375ac0;
+    }
+   </style> 
 </head>
 <body>
     <!-- Navigation -->
@@ -67,9 +121,7 @@
                 <div class="medical-icon-container">
                    <img  class="medical-icon-container" src="heart-unscreen.gif">
                 </div>
-            </div>
-
-  
+            </div>  
         </div>
     </section>
 
@@ -78,6 +130,14 @@
         <div class="container">
             <h2 class="section-title">Our Medical Services</h2>
             <div class="features-grid">
+                <div class="feature-card hover-lift" onclick="location.href='symptoms_checker.html'">
+                    <div class="feature-icon symptom-checker-bg">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <h3>Chat virtual doctor</h3>
+                    <p>Advanced AI analyzes your symptoms to predict potential diseases with accuracy percentages.</p>
+                </div>
+
                 <div class="feature-card hover-lift" onclick="location.href='symptoms_checker.html'">
                     <div class="feature-icon symptom-checker-bg">
                         <i class="fas fa-stethoscope"></i>
@@ -98,20 +158,76 @@
                     <div class="feature-icon chronic-bg">
                         <i class="fas fa-activity"></i>
                     </div>
-                    <h3>Chronic Disease Care</h3>
+                    <h3>Chronic Disease Diagnosis</h3>
                     <p>Specialized diagnosis and monitoring for chronic conditions like diabetes, cancer, and heart disease.</p>
                 </div>
                 
-                <div class="feature-card hover-lift" onclick="location.href='doctors.html'">
+                <!-- <div class="feature-card hover-lift" onclick="location.href='doctors.html'">
                     <div class="feature-icon doctor-bg">
                         <i class="fas fa-user-md"></i>
                     </div>
                     <h3>Expert Doctors</h3>
                     <p>Connect with qualified medical professionals for real-time consultations and expert advice.</p>
+                </div> -->
+                <div class="feature-card hover-lift" onclick="location.href='symptoms_checker.html'">
+                    <div class="feature-icon symptom-checker-bg">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <h3>Hospitals In nepal</h3>
+                    <p>Advanced AI analyzes your symptoms to predict potential diseases with accuracy percentages.</p>
+                </div>
+                <div class="feature-card hover-lift" onclick="location.href='symptoms_checker.html'">
+                    <div class="feature-icon symptom-checker-bg">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <h3>Medicine</h3>
+                    <p>Advanced AI analyzes your symptoms to predict potential diseases with accuracy percentages.</p>
                 </div>
             </div>
         </div>
     </section>
+
+      <section class="doctor-section">
+    <h1 class="section-title">Find a Doctor</h1>
+    <p class="section-subtitle">Our top-rated healthcare professionals are here to help you.</p>
+
+    <div class="doctor-grid">
+      <div class="doctor-card">
+        <img src="images/doctor1.jpg" alt="Dr. Aisha Khan" class="doctor-img">
+        <div class="doctor-info">
+          <h3>Dr. Aisha Khan</h3>
+          <p><strong>Specialist:</strong> Cardiologist</p>
+          <p><strong>Location:</strong> New York, NY</p>
+          <p><strong>Experience:</strong> 12 years</p>
+          <a href="chat-with-doctor.html?doc=aisha" class="chat-icon"><i class="fas fa-comment-medical"></i> Chat Now</a>
+        </div>
+      </div>
+
+      <div class="doctor-card">
+        <img src="images/doctor2.jpg" alt="Dr. Michael Lee" class="doctor-img">
+        <div class="doctor-info">
+          <h3>Dr. Michael Lee</h3>
+          <p><strong>Specialist:</strong> Pulmonologist</p>
+          <p><strong>Location:</strong> San Francisco, CA</p>
+          <p><strong>Experience:</strong> 15 years</p>
+          <a href="chat-with-doctor.html?doc=michael" class="chat-icon"><i class="fas fa-comment-medical"></i> Chat Now</a>
+        </div>
+      </div>
+
+      <div class="doctor-card">
+        <img src="images/doctor3.jpg" alt="Dr. Priya Sharma" class="doctor-img">
+        <div class="doctor-info">
+          <h3>Dr. Priya Sharma</h3>
+          <p><strong>Specialist:</strong> Neurologist</p>
+          <p><strong>Location:</strong> Houston, TX</p>
+          <p><strong>Experience:</strong> 10 years</p>
+          <a href="chat-with-doctor.html?doc=priya" class="chat-icon"><i class="fas fa-comment-medical"></i> Chat Now</a>
+        </div>
+      </div>
+
+      <!-- Add more doctor cards as needed -->
+    </div>
+  </section>
 
     <!-- Stats Section -->
     <section class="stats">
