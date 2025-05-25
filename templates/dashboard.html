@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAi - AI Health System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4e73df;
+            --secondary: #1cc88a;
+            --danger: #e74a3b;
+            --dark: #5a5c69;
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #f8f9fc;
+        }
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary) 10%, #224abe 100%);
+            min-height: 100vh;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+        .card-icon {
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar text-white p-0">
+                <div class="p-4">
+                    <h4 class="mb-4"><i class="fas fa-heartbeat me-2"></i> MedAi</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2">
+                            <a class="nav-link text-white active" href="#"><i class="fas fa-home me-2"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link text-white" href="symptom-checker.html"><i class="fas fa-stethoscope me-2"></i> Symptom Checker</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link text-white" href="patients.html"><i class="fas fa-user-injured me-2"></i> Patients</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link text-white" href="reports.html"><i class="fas fa-chart-line me-2"></i> Health Reports</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link text-white" href="medications.html"><i class="fas fa-pills me-2"></i> Medications</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link text-white" href="settings.html"><i class="fas fa-cog me-2"></i> Settings</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 ms-sm-auto p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Dashboard</h2>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i> Dr. Admin
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col me-2">
+                                        <div class="text-xs font-weight-bold text-primary mb-1">
+                                            Active Patients</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">1,248</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user-injured fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col me-2">
+                                        <div class="text-xs font-weight-bold text-success mb-1">
+                                            Today's Appointments</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">24</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col me-2">
+                                        <div class="text-xs font-weight-bold text-info mb-1">
+                                            High Risk Cases</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col me-2">
+                                        <div class="text-xs font-weight-bold text-warning mb-1">
+                                            AI Predictions Today</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">56</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-brain fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Health Alerts -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="fas fa-bell me-2 text-danger"></i> Critical Health Alerts</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-danger d-flex align-items-center mb-2">
+                            <i class="fas fa-heartbeat me-3"></i>
+                            <div>
+                                <strong>Patient #1024</strong> - Abnormal heart rate detected (120 bpm) 
+                                <a href="#" class="alert-link">View details</a>
+                            </div>
+                        </div>
+                        <div class="alert alert-warning d-flex align-items-center">
+                            <i class="fas fa-temperature-high me-3"></i>
+                            <div>
+                                <strong>Patient #2048</strong> - High fever (39.2°C) persisting for 12 hours
+                                <a href="#" class="alert-link">View details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Predictions -->
+                <div class="row">
+                    <div class="col-lg-8 mb-4">
+                        <div class="card shadow">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0"><i class="fas fa-chart-line me-2 text-primary"></i> Health Predictions Analytics</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="predictionsChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="card shadow">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0"><i class="fas fa-disease me-2 text-success"></i> Top Predicted Conditions</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <h6 class="small font-weight-bold">Diabetes <span class="float-end">32%</span></h6>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-danger" style="width: 32%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="small font-weight-bold">Hypertension <span class="float-end">24%</span></h6>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-warning" style="width: 24%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="small font-weight-bold">Respiratory Issues <span class="float-end">18%</span></h6>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-info" style="width: 18%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="small font-weight-bold">Mental Health <span class="float-end">14%</span></h6>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-primary" style="width: 14%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sample Chart
+        const ctx = document.getElementById('predictionsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'AI Predictions',
+                    data: [120, 190, 170, 220, 280, 310],
+                    borderColor: '#4e73df',
+                    backgroundColor: 'rgba(78, 115, 223, 0.05)',
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

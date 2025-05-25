@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAi - AI Health Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .chat-container {
+            height: calc(100vh - 200px);
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .user-message {
+            background: #4e73df;
+            color: white;
+            border-radius: 18px 18px 0 18px;
+            max-width: 70%;
+            margin-left: auto;
+        }
+        .bot-message {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 18px 18px 18px 0;
+            max-width: 70%;
+        }
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: #6c757d;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: bounce 1.5s infinite;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .quick-reply {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quick-reply:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar (same as diseases.html) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <!-- ... same navbar content ... -->
+    </nav>
+
+    <!-- Main Chat Interface -->
+    <div class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="mb-0"><i class="fas fa-robot me-2"></i> MedAi Assistant</h4>
+                            <small class="d-block">AI-powered health advisor</small>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" 
+                                    data-bs-toggle="dropdown">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i> Chat History</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-info-circle me-2"></i> About MedAi</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-redo me-2"></i> Reset Chat</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <!-- Chat Container -->
+                        <div class="chat-container" id="chatContainer">
+                            <!-- Welcome Message -->
+                            <div class="d-flex mb-3 justify-content-start">
+                                <div class="bot-message p-3">
+                                    <strong>MedAi:</strong> Hello! I'm your AI health assistant. How can I help you today? 
+                                    You can ask me about symptoms, conditions, or general health advice.
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Reply Suggestions -->
+                            <div class="d-flex mb-3 justify-content-start">
+                                <div class="bot-message p-3">
+                                    <strong>MedAi:</strong> Try asking:
+                                    <div class="d-flex flex-wrap mt-2">
+                                        <div class="quick-reply badge bg-light text-dark me-2 mb-2 p-2" 
+                                             onclick="sendQuickReply('What are flu symptoms?')">
+                                            <i class="fas fa-comment-dots me-1"></i> Flu symptoms?
+                                        </div>
+                                        <div class="quick-reply badge bg-light text-dark me-2 mb-2 p-2" 
+                                             onclick="sendQuickReply('Headache and nausea causes')">
+                                            <i class="fas fa-comment-dots me-1"></i> Headache + nausea
+                                        </div>
+                                        <div class="quick-reply badge bg-light text-dark me-2 mb-2 p-2" 
+                                             onclick="sendQuickReply('How to lower blood pressure naturally')">
+                                            <i class="fas fa-comment-dots me-1"></i> Lower BP naturally
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Input Area -->
+                        <div class="p-3 border-top">
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary" type="button" id="attachBtn">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <input type="text" class="form-control" id="chatInput" 
+                                       placeholder="Type your health question..." autocomplete="off">
+                                <button class="btn btn-primary" type="button" id="sendBtn">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            <div class="d-flex flex-wrap mt-2" id="quickActions">
+                                <button class="btn btn-sm btn-outline-secondary me-2 mb-2" onclick="showSymptomsModal()">
+                                    <i class="fas fa-stethoscope me-1"></i> Check Symptoms
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary me-2 mb-2" onclick="showMedicationSearch()">
+                                    <i class="fas fa-pills me-1"></i> Medication Info
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary me-2 mb-2" onclick="showFindDoctor()">
+                                    <i class="fas fa-user-md me-1"></i> Find a Doctor
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Symptoms Modal -->
+    <div class="modal fade" id="symptomsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-stethoscope me-2"></i> Symptom Checker</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Select your symptoms to get AI analysis:</p>
+                    <div class="mb-3">
+                        <select class="form-select" multiple size="8" id="modalSymptomSelect">
+                            <option>Fever</option>
+                            <option>Headache</option>
+                            <option>Cough</option>
+                            <option>Fatigue</option>
+                            <option>Nausea</option>
+                            <option>Dizziness</option>
+                            <option>Chest pain</option>
+                            <option>Shortness of breath</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Additional Notes</label>
+                        <textarea class="form-control" rows="3" placeholder="Describe your symptoms..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="analyzeSymptoms()">
+                        <i class="fas fa-diagnoses me-1"></i> Analyze
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize modal
+        const symptomsModal = new bootstrap.Modal(document.getElementById('symptomsModal'));
+        
+        function showSymptomsModal() {
+            symptomsModal.show();
+        }
+        
+        function analyzeSymptoms() {
+            const selectedSymptoms = Array.from(document.getElementById('modalSymptomSelect').selectedOptions)
+                .map(option => option.value);
+            
+            if (selectedSymptoms.length === 0) {
+                alert('Please select at least one symptom');
+                return;
+            }
+            
+            symptomsModal.hide();
+            
+            // Add user message
+            addChatMessage('user', `I have these symptoms: ${selectedSymptoms.join(', ')}`);
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate AI analysis
+            setTimeout(() => {
+                // Remove typing indicator
+                document.querySelector('.typing-indicator').remove();
+                
+                // Add AI response
+                const conditions = [
+                    { name: "Common Cold", probability: 0.65 },
+                    { name: "Influenza (Flu)", probability: 0.45 },
+                    { name: "COVID-19", probability: 0.30 }
+                ];
+                
+                const response = `
+                    Based on your symptoms, possible conditions include:
+                    <ul class="mb-2">
+                        ${conditions.map(c => `<li><strong>${c.name}</strong> (${Math.round(c.probability * 100)}% match)</li>`).join('')}
+                    </ul>
+                    Would you like me to explain any of these in more detail?
+                `;
+                
+                addChatMessage('bot', response);
+            }, 2000);
+        }
+        
+        function sendQuickReply(text) {
+            document.getElementById('chatInput').value = text;
+            sendMessage();
+        }
+        
+        function showTypingIndicator() {
+            const chatContainer = document.getElementById('chatContainer');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'd-flex mb-3 justify-content-start';
+            typingDiv.innerHTML = `
+                <div class="bot-message p-3">
+                    <strong>MedAi:</strong> 
+                    <span class="typing-indicator">
+                        <span></span><span></span><span></span>
+                    </span>
+                </div>
+            `;
+            chatContainer.appendChild(typingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function addChatMessage(sender, message) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `d-flex mb-3 justify-content-${sender === 'user' ? 'end' : 'start'}`;
+            messageDiv.innerHTML = `
+                <div class="${sender === 'user' ? 'user-message' : 'bot-message'} p-3">
+                    <strong>${sender === 'user' ? 'You' : 'MedAi'}:</strong> ${message}
+                </div>
+            `;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addChatMessage('user', message);
+                input.value = '';
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    // Remove typing indicator
+                    document.querySelector('.typing-indicator').remove();
+                    
+                    // Generate response
+                    const responses = [
+                        "I understand your concern. Can you tell me more about when these symptoms started?",
+                        "Based on what you're describing, it might be helpful to monitor your temperature regularly.",
+                        "That sounds uncomfortable. Have you tried any remedies that helped?",
+                        "I recommend consulting with a healthcare provider about this symptom.",
+                        "Let me check my medical knowledge base for information about this...",
+                        "For more accurate advice, you might want to use our symptom checker tool."
+                    ];
+                    
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addChatMessage('bot', randomResponse);
+                }, 1500);
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('sendBtn').addEventListener('click', sendMessage);
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        function showMedicationSearch() {
+            addChatMessage('user', 'I want to know about a medication');
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                document.querySelector('.typing-indicator').remove();
+                addChatMessage('bot', `You can search for medication information using our database. 
+                    What medication are you interested in?`);
+            }, 1000);
+        }
+        
+        function showFindDoctor() {
+            addChatMessage('user', 'I need to find a doctor');
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                document.querySelector('.typing-indicator').remove();
+                addChatMessage('bot', `I can help you find healthcare providers in your area. 
+                    What specialty are you looking for? (e.g., cardiologist, pediatrician)`);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

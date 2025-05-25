@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAi - Symptom Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .chat-container {
+            height: 70vh;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+        }
+        .user-message {
+            background: #e3f2fd;
+            border-radius: 15px 15px 0 15px;
+        }
+        .bot-message {
+            background: #f8f9fa;
+            border-radius: 15px 15px 15px 0;
+        }
+        .typing-indicator span {
+            animation: bounce 1.5s infinite;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Reuse the same sidebar from index.html -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-lg-2 sidebar text-white p-0">
+                <!-- Sidebar content same as index.html -->
+            </div>
+            <div class="col-md-9 col-lg-10 ms-sm-auto p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-stethoscope me-2"></i> Symptom Checker</h2>
+                    <button class="btn btn-outline-danger" id="resetChat">
+                        <i class="fas fa-redo me-1"></i> Reset
+                    </button>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="fas fa-robot me-2 text-primary"></i> MedAi Assistant</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chat-container p-3 mb-3" id="chatContainer">
+                            <div class="d-flex mb-3 justify-content-start">
+                                <div class="bot-message p-3">
+                                    <strong>MedAi:</strong> Hello! I'm your AI health assistant. 
+                                    Please describe your symptoms (e.g., "headache, fever for 2 days").
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="userInput" 
+                                   placeholder="Type your symptoms here...">
+                            <button class="btn btn-primary" id="sendButton">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="fas fa-lightbulb me-2 text-warning"></i> Possible Conditions</h5>
+                    </div>
+                    <div class="card-body" id="conditionsResult">
+                        <div class="text-center text-muted py-4">
+                            <i class="fas fa-comment-medical fa-3x mb-3"></i>
+                            <p>Describe your symptoms to get AI analysis</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sendButton').addEventListener('click', function() {
+            const userInput = document.getElementById('userInput').value.trim();
+            if (userInput) {
+                addUserMessage(userInput);
+                simulateAIResponse(userInput);
+                document.getElementById('userInput').value = '';
+            }
+        });
+
+        function addUserMessage(text) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'd-flex mb-3 justify-content-end';
+            messageDiv.innerHTML = `
+                <div class="user-message p-3">
+                    <strong>You:</strong> ${text}
+                </div>
+            `;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function addBotMessage(text) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'd-flex mb-3 justify-content-start';
+            messageDiv.innerHTML = `
+                <div class="bot-message p-3">
+                    <strong>MedAi:</strong> ${text}
+                </div>
+            `;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const chatContainer = document.getElementById('chatContainer');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'd-flex mb-3 justify-content-start';
+            typingDiv.innerHTML = `
+                <div class="bot-message p-3">
+                    <strong>MedAi:</strong> 
+                    <span class="typing-indicator">
+                        <span>.</span><span>.</span><span>.</span>
+                    </span>
+                </div>
+            `;
+            chatContainer.appendChild(typingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return typingDiv;
+        }
+
+        function simulateAIResponse(userInput) {
+            // Show typing indicator
+            const typingElement = showTypingIndicator();
+            
+            // Simulate AI processing delay
+            setTimeout(() => {
+                // Remove typing indicator
+                typingElement.remove();
+                
+                // Add bot response
+                addBotMessage("Thank you for describing your symptoms. Analyzing...");
+                
+                // Simulate further processing
+                setTimeout(() => {
+                    // Generate mock diagnosis (in real app, this would call your AI backend)
+                    const mockConditions = [
+                        { name: "Common Cold", confidence: 65, advice: "Rest, hydrate, and consider OTC cold medicine." },
+                        { name: "Influenza (Flu)", confidence: 30, advice: "May require antiviral medication. Consult a doctor." },
+                        { name: "COVID-19", confidence: 15, advice: "Consider testing. Isolate if you have risk factors." }
+                    ];
+                    
+                    addBotMessage("Based on your symptoms, here are possible conditions:");
+                    displayConditions(mockConditions);
+                }, 1500);
+            }, 2000);
+        }
+
+        function displayConditions(conditions) {
+            const conditionsResult = document.getElementById('conditionsResult');
+            conditionsResult.innerHTML = '';
+            
+            conditions.forEach(condition => {
+                const conditionDiv = document.createElement('div');
+                conditionDiv.className = 'mb-4';
+                conditionDiv.innerHTML = `
+                    <div class="d-flex justify-content-between mb-1">
+                        <h5>${condition.name}</h5>
+                        <span class="badge bg-${getConfidenceColor(condition.confidence)}">
+                            ${condition.confidence}% confidence
+                        </span>
+                    </div>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-${getConfidenceColor(condition.confidence)}" 
+                             style="width: ${condition.confidence}%"></div>
+                    </div>
+                    <div class="alert alert-${getConfidenceColor(condition.confidence)}">
+                        <i class="fas fa-info-circle me-2"></i> ${condition.advice}
+                    </div>
+                `;
+                conditionsResult.appendChild(conditionDiv);
+            });
+        }
+
+        function getConfidenceColor(confidence) {
+            if (confidence > 60) return 'danger';
+            if (confidence > 30) return 'warning';
+            return 'info';
+        }
+
+        document.getElementById('resetChat').addEventListener('click', function() {
+            document.getElementById('chatContainer').innerHTML = `
+                <div class="d-flex mb-3 justify-content-start">
+                    <div class="bot-message p-3">
+                        <strong>MedAi:</strong> Hello! I'm your AI health assistant. 
+                        Please describe your symptoms (e.g., "headache, fever for 2 days").
+                    </div>
+                </div>
+            `;
+            document.getElementById('conditionsResult').innerHTML = `
+                <div class="text-center text-muted py-4">
+                    <i class="fas fa-comment-medical fa-3x mb-3"></i>
+                    <p>Describe your symptoms to get AI analysis</p>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>

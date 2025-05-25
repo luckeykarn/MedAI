@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Medical Chat - MedAI</title>
+    <link rel="stylesheet" href="lovable.css">
+    <link rel="stylesheet" href="chat.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-heartbeat heart-pulse"></i>
+                <span>MedAI</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="ai-chat.html" class="nav-link active">
+                    <i class="fas fa-robot"></i> AI Chat
+                </a>
+                <a href="symptom-checker.html" class="nav-link">
+                    <i class="fas fa-stethoscope"></i> Symptom Checker
+                </a>
+                <a href="diseases.html" class="nav-link">
+                    <i class="fas fa-database"></i> Diseases
+                </a>
+                <a href="chronic-diseases.html" class="nav-link">
+                    <i class="fas fa-activity"></i> Chronic Diseases
+                </a>
+                <a href="doctors.html" class="nav-link">
+                    <i class="fas fa-user-md"></i> Doctors
+                </a>
+            </div>
+            
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Chat Section -->
+    <section class="chat-section">
+        <div class="container">
+            <div class="chat-header">
+                <h1><i class="fas fa-robot"></i> AI Medical Assistant</h1>
+                <p>Get instant medical guidance from our AI-powered doctor</p>
+            </div>
+            
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-message ai-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            Hello! I'm your AI Medical Assistant. I can help you with:
+                            <ul>
+                                <li>Symptom analysis and preliminary diagnosis</li>
+                                <li>General health information</li>
+                                <li>Medication guidance</li>
+                                <li>When to seek professional help</li>
+                            </ul>
+                            <strong>Note:</strong> This is for informational purposes only and should not replace professional medical advice.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <div class="chat-input-box">
+                        <input type="text" id="chat-input" placeholder="Describe your symptoms or ask a medical question..." onkeypress="if(event.key==='Enter') sendMessage()">
+                        <button onclick="sendMessage()" class="send-button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="quick-questions">
+                        <span>Quick questions:</span>
+                        <button onclick="document.getElementById('chat-input').value='I have a headache'; sendMessage()">Headache</button>
+                        <button onclick="document.getElementById('chat-input').value='I have fever'; sendMessage()">Fever</button>
+                        <button onclick="document.getElementById('chat-input').value='Chest pain'; sendMessage()">Chest Pain</button>
+                        <button onclick="document.getElementById('chat-input').value='Stomach ache'; sendMessage()">Stomach Ache</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="main.js"></script>
+    <script src="chat.js"></script>
+</body>
+</html>

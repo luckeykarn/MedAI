@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAi - AI Health Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            border-bottom: 4px solid transparent;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-bottom-color: #4e73df;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .quick-action-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+        .quick-action-card:hover {
+            background: #e9ecef;
+            transform: scale(1.02);
+        }
+        .stat-card {
+            border-left: 4px solid;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-heartbeat me-2"></i> MedAi
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="diseases.html"><i class="fas fa-disease"></i> Diseases</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="symptom-checker.html"><i class="fas fa-stethoscope"></i> Symptom Checker</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="chat.html"><i class="fas fa-robot"></i> MedAi Chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user"></i> Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section py-5 my-4">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Your AI-Powered Health Companion</h1>
+                    <p class="lead mb-4">MedAi helps you understand symptoms, identify potential conditions, and get personalized health advice using artificial intelligence.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="symptom-checker.html" class="btn btn-light btn-lg px-4">
+                            <i class="fas fa-stethoscope me-2"></i> Check Symptoms
+                        </a>
+                        <a href="chat.html" class="btn btn-outline-light btn-lg px-4">
+                            <i class="fas fa-robot me-2"></i> Talk to MedAi
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://via.placeholder.com/600x400?text=AI+Health+Assistant" class="img-fluid rounded" alt="MedAi Assistant">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="container my-5">
+        <h2 class="text-center mb-5">How Can We Help You Today?</h2>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <a href="symptom-checker.html" class="text-decoration-none">
+                    <div class="quick-action-card p-4 text-center h-100">
+                        <div class="mb-3">
+                            <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-circle d-inline-block">
+                                <i class="fas fa-stethoscope fa-2x"></i>
+                            </div>
+                        </div>
+                        <h5>Symptom Checker</h5>
+                        <p class="text-muted small">Analyze your symptoms and get possible conditions</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="diseases.html" class="text-decoration-none">
+                    <div class="quick-action-card p-4 text-center h-100">
+                        <div class="mb-3">
+                            <div class="bg-success bg-opacity-10 text-success p-3 rounded-circle d-inline-block">
+                                <i class="fas fa-disease fa-2x"></i>
+                            </div>
+                        </div>
+                        <h5>Disease Encyclopedia</h5>
+                        <p class="text-muted small">Learn about symptoms, causes and treatments</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="chat.html" class="text-decoration-none">
+                    <div class="quick-action-card p-4 text-center h-100">
+                        <div class="mb-3">
+                            <div class="bg-info bg-opacity-10 text-info p-3 rounded-circle d-inline-block">
+                                <i class="fas fa-robot fa-2x"></i>
+                            </div>
+                        </div>
+                        <h5>AI Health Assistant</h5>
+                        <p class="text-muted small">Get answers to your health questions instantly</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="#" class="text-decoration-none">
+                    <div class="quick-action-card p-4 text-center h-100">
+                        <div class="mb-3">
+                            <div class="bg-warning bg-opacity-10 text-warning p-3 rounded-circle d-inline-block">
+                                <i class="fas fa-pills fa-2x"></i>
+                            </div>
+                        </div>
+                        <h5>Medication Guide</h5>
+                        <p class="text-muted small">Information about drugs and interactions</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="bg-light py-5 my-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Why Choose MedAi?</h2>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="feature-card p-4 h-100 bg-white">
+                        <div class="mb-3 text-primary">
+                            <i class="fas fa-brain fa-3x"></i>
+                        </div>
+                        <h4>AI-Powered Diagnosis</h4>
+                        <p>Our advanced algorithms analyze your symptoms with medical knowledge to suggest possible conditions.</p>
+                        <ul>
+                            <li>Instant symptom analysis</li>
+                            <li>Personalized risk assessment</li>
+                            <li>Evidence-based suggestions</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card p-4 h-100 bg-white">
+                        <div class="mb-3 text-success">
+                            <i class="fas fa-book-medical fa-3x"></i>
+                        </div>
+                        <h4>Comprehensive Medical Knowledge</h4>
+                        <p>Access reliable information about thousands of diseases, symptoms, and treatments.</p>
+                        <ul>
+                            <li>Verified medical content</li>
+                            <li>Detailed treatment options</li>
+                            <li>Prevention guidelines</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card p-4 h-100 bg-white">
+                        <div class="mb-3 text-info">
+                            <i class="fas fa-user-shield fa-3x"></i>
+                        </div>
+                        <h4>Privacy Focused</h4>
+                        <p>Your health data remains confidential with our secure, encrypted platform.</p>
+                        <ul>
+                            <li>End-to-end encryption</li>
+                            <li>No data sharing</li>
+                            <li>Anonymous options</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="container my-5">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="stat-card p-3 border-left-primary bg-white shadow-sm h-100">
+                    <h3 class="text-primary">10,000+</h3>
+                    <p class="mb-0">Medical conditions in our database</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card p-3 border-left-success bg-white shadow-sm h-100">
+                    <h3 class="text-success">5M+</h3>
+                    <p class="mb-0">Symptoms analyzed monthly</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card p-3 border-left-info bg-white shadow-sm h-100">
+                    <h3 class="text-info">92%</h3>
+                    <p class="mb-0">Accuracy in preliminary diagnosis</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card p-3 border-left-warning bg-white shadow-sm h-100">
+                    <h3 class="text-warning">24/7</h3>
+                    <p class="mb-0">AI health assistance available</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="bg-primary text-white py-5 my-5">
+        <div class="container">
+            <h2 class="text-center mb-5">What Our Users Say</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="bg-white text-dark p-4 rounded h-100">
+                        <div class="mb-3 text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="fst-italic">"MedAi helped me identify my symptoms correctly before my doctor's appointment. The AI was surprisingly accurate!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="User">
+                            <div>
+                                <h6 class="mb-0">Sarah Johnson</h6>
+                                <small class="text-muted">Patient</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-white text-dark p-4 rounded h-100">
+                        <div class="mb-3 text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="fst-italic">"As a busy professional, I love having instant access to reliable health information through MedAi's chat."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="User">
+                            <div>
+                                <h6 class="mb-0">Michael Chen</h6>
+                                <small class="text-muted">Software Engineer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-white text-dark p-4 rounded h-100">
+                        <div class="mb-3 text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="fst-italic">"The symptom checker helped me realize I needed urgent care for what turned out to be appendicitis."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="User">
+                            <div>
+                                <h6 class="mb-0">Emma Rodriguez</h6>
+                                <small class="text-muted">Teacher</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="container my-5">
+        <div class="bg-light rounded p-5 text-center">
+            <h2 class="mb-4">Ready to Take Control of Your Health?</h2>
+            <p class="lead mb-4">Join millions of users who trust MedAi for reliable health information and AI-powered assistance.</p>
+            <a href="chat.html" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-robot me-2"></i> Start Talking to MedAi
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5><i class="fas fa-heartbeat me-2"></i> MedAi</h5>
+                    <p>AI-powered health assistant providing reliable medical information and symptom analysis.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Services</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="symptom-checker.html" class="text-white-50">Symptom Checker</a></li>
+                        <li><a href="diseases.html" class="text-white-50">Disease Encyclopedia</a></li>
+                        <li><a href="chat.html" class="text-white-50">AI Health Chat</a></li>
+                        <li><a href="#" class="text-white-50">Medication Guide</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Company</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text

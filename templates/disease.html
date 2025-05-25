@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAi - Disease Encyclopedia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .search-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+        }
+        .disease-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            border-left: 4px solid #4e73df;
+        }
+        .disease-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .tag {
+            font-size: 0.75rem;
+            background: #e9ecef;
+            border-radius: 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-heartbeat me-2"></i> MedAi
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="diseases.html"><i class="fas fa-disease"></i> Diseases</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="symptom-checker.html"><i class="fas fa-stethoscope"></i> Symptom Checker</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="chat.html"><i class="fas fa-robot"></i> MedAi Chat</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Search Section -->
+        <div class="card search-card shadow mb-5">
+            <div class="card-body p-4">
+                <h4 class="mb-4"><i class="fas fa-search me-2"></i> Search Diseases</h4>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Symptoms</label>
+                        <select class="form-select" multiple id="symptomSelect">
+                            <option>Fever</option>
+                            <option>Cough</option>
+                            <option>Headache</option>
+                            <option>Fatigue</option>
+                            <option>Nausea</option>
+                            <option>Shortness of breath</option>
+                            <option>Chest pain</option>
+                            <option>Dizziness</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Causes</label>
+                        <select class="form-select" multiple id="causeSelect">
+                            <option>Virus</option>
+                            <option>Bacteria</option>
+                            <option>Genetic</option>
+                            <option>Environmental</option>
+                            <option>Allergens</option>
+                            <option>Stress</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Disease Name</label>
+                        <input type="text" class="form-control" placeholder="e.g. Diabetes" id="diseaseSearch">
+                    </div>
+                    <div class="col-12 text-end">
+                        <button class="btn btn-primary me-2" id="searchBtn">
+                            <i class="fas fa-search me-1"></i> Search
+                        </button>
+                        <button class="btn btn-outline-secondary" id="resetBtn">
+                            <i class="fas fa-redo me-1"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disease Listing -->
+        <div class="row" id="diseaseList">
+            <!-- Disease cards will be loaded here -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card disease-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">Influenza (Flu)</h5>
+                            <span class="badge bg-danger">High Risk</span>
+                        </div>
+                        <p class="card-text text-muted small">Viral infection that attacks your respiratory system</p>
+                        <div class="mb-3">
+                            <span class="tag me-1">Fever</span>
+                            <span class="tag me-1">Cough</span>
+                            <span class="tag me-1">Fatigue</span>
+                            <span class="tag me-1">Body aches</span>
+                        </div>
+                        <a href="disease-detail.html?id=flu" class="btn btn-sm btn-outline-primary stretched-link">
+                            View Details <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card disease-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">Diabetes</h5>
+                            <span class="badge bg-warning">Chronic</span>
+                        </div>
+                        <p class="card-text text-muted small">Metabolic disease causing high blood sugar</p>
+                        <div class="mb-3">
+                            <span class="tag me-1">Increased thirst</span>
+                            <span class="tag me-1">Frequent urination</span>
+                            <span class="tag me-1">Fatigue</span>
+                            <span class="tag me-1">Blurred vision</span>
+                        </div>
+                        <a href="disease-detail.html?id=diabetes" class="btn btn-sm btn-outline-primary stretched-link">
+                            View Details <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card disease-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">Asthma</h5>
+                            <span class="badge bg-info">Respiratory</span>
+                        </div>
+                        <p class="card-text text-muted small">Condition where airways narrow and swell</p>
+                        <div class="mb-3">
+                            <span class="tag me-1">Shortness of breath</span>
+                            <span class="tag me-1">Chest tightness</span>
+                            <span class="tag me-1">Wheezing</span>
+                        </div>
+                        <a href="disease-detail.html?id=asthma" class="btn btn-sm btn-outline-primary stretched-link">
+                            View Details <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add more disease cards as needed -->
+        </div>
+
+        <!-- Add New Disease (Community Contribution) -->
+        <div class="card shadow mt-5">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-plus-circle me-2"></i> Contribute Disease Information</h5>
+                <p class="text-muted">Help improve our database by adding information about diseases</p>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDiseaseModal">
+                    <i class="fas fa-plus me-1"></i> Add New Disease
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Disease Modal -->
+    <div class="modal fade" id="addDiseaseModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-disease me-2"></i> Add New Disease</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="diseaseForm">
+                        <div class="mb-3">
+                            <label class="form-label">Disease Name*</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description*</label>
+                            <textarea class="form-control" rows="3" required></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Primary Symptoms*</label>
+                                <select class="form-select" multiple required>
+                                    <option>Fever</option>
+                                    <option>Cough</option>
+                                    <option>Headache</option>
+                                    <!-- More options -->
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Known Causes*</label>
+                                <select class="form-select" multiple required>
+                                    <option>Viral</option>
+                                    <option>Bacterial</option>
+                                    <option>Genetic</option>
+                                    <!-- More options -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">References (URLs)</label>
+                            <input type="text" class="form-control" placeholder="https://">
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i> All submissions will be reviewed by our medical team before publishing.
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="diseaseForm" class="btn btn-primary">Submit Disease</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Search functionality
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const symptoms = Array.from(document.getElementById('symptomSelect').selectedOptions)
+                .map(option => option.value);
+            const causes = Array.from(document.getElementById('causeSelect').selectedOptions)
+                .map(option => option.value);
+            const diseaseName = document.getElementById('diseaseSearch').value;
+            
+            // In a real app, you would make an API call here
+            console.log('Searching for:', { symptoms, causes, diseaseName });
+            alert('In a real application, this would filter diseases based on your criteria');
+        });
+
+        // Reset search
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            document.getElementById('symptomSelect').selectedIndex = -1;
+            document.getElementById('causeSelect').selectedIndex = -1;
+            document.getElementById('diseaseSearch').value = '';
+        });
+    </script>
+</body>
+</html>
