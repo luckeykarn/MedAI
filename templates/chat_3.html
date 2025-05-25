@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Medical Chat - MedAI</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="lovable.css" />
+  <link rel="stylesheet" href="chat.css" />
+  <link rel="stylesheet" href="styles/animations.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+  <style>
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .typing-indicator span {
+      height: 8px;
+      width: 8px;
+      background-color: #4e73df;
+      border-radius: 50%;
+      display: inline-block;
+      animation: bounce 1.4s infinite ease-in-out;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <i class="fas fa-heartbeat heart-pulse"></i>
+        <span>MedAI</span>
+      </div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="ai-chat.html" class="nav-link active"><i class="fas fa-robot"></i> AI Chat</a>
+        <a href="symptom-checker.html" class="nav-link"><i class="fas fa-stethoscope"></i> Symptom Checker</a>
+        <a href="diseases.html" class="nav-link"><i class="fas fa-database"></i> Diseases</a>
+        <a href="chronic-diseases.html" class="nav-link"><i class="fas fa-activity"></i> Chronic Diseases</a>
+        <a href="doctors.html" class="nav-link"><i class="fas fa-user-md"></i> Doctors</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Chat Section -->
+  <section class="chat-section">
+    <div class="container">
+      <div class="chat-header">
+        <h1><i class="fas fa-robot"></i> AI Medical Assistant</h1>
+        <p>Get instant medical guidance from our AI-powered doctor</p>
+      </div>
+
+      <div class="chat-container">
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-message ai-message">
+            <div class="message-avatar"><i class="fas fa-robot"></i></div>
+            <div class="message-content">
+              Hello! I'm your AI Medical Assistant. I can help you with:
+              <ul>
+                <li>Symptom analysis and preliminary diagnosis</li>
+                <li>General health information</li>
+                <li>Medication guidance</li>
+                <li>When to seek professional help</li>
+              </ul>
+              <strong>Note:</strong> This is for informational purposes only and should not replace professional medical advice.
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-input-container">
+          <div class="chat-input-box">
+            <input
+              type="text"
+              id="chat-input"
+              placeholder="Describe your symptoms or ask a medical question..."
+              onkeypress="if(event.key==='Enter') sendMessage()"
+            />
+            <button onclick="sendMessage()" class="send-button">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+
+          <div class="quick-questions">
+            <span>Quick questions:</span>
+            <button onclick="sendQuick('I have a headache')">Headache</button>
+            <button onclick="sendQuick('I have fever')">Fever</button>
+            <button onclick="sendQuick('Chest pain')">Chest Pain</button>
+            <button onclick="sendQuick('Stomach ache')">Stomach Ache</button>
+          </div>
+
+          <div class="mt-2 text-end">
+            <button class="btn btn-outline-primary btn-sm" onclick="showSymptomsModal()">
+              <i class="fas fa-stethoscope me-1"></i> Check Symptoms
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- JavaScript -->
+  <script>
+    function addChatMessage(sender, message) {
+      const chatMessages = document.getElementById('chat-messages');
+      const messageWrapper = document.createElement('div');
+      messageWrapper.className = `chat-message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
+
+      const avatar = document.createElement('div');
+      avatar.className = 'message-avatar';
+      avatar.innerHTML = `<i class="fas ${sender === 'user' ? 'fa-user' : 'fa-robot'}"></i>`;
+
+      const content = document.createElement('div');
+      content.className = 'message-content';
+      content.innerHTML = `<strong>${sender === 'user' ? 'You' : 'MedAI'}:</strong> ${message}`;
+
+      messageWrapper.appendChild(avatar);
+      messageWrapper.appendChild(content);
+      chatMessages.appendChild(messageWrapper);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      const chatMessages = document.getElementById('chat-messages');
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'chat-message ai-message typing-indicator-wrapper';
+      typingDiv.innerHTML = `
+        <div class="message-avatar"><i class="fas fa-robot"></i></div>
+        <div class="message-content">
+          <div class="typing-indicator">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      `;
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const indicator = document.querySelector('.typing-indicator-wrapper');
+      if (indicator) indicator.remove();
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      addChatMessage('user', message);
+      input.value = '';
+      showTypingIndicator();
+
+      setTimeout(() => {
+        removeTypingIndicator();
+        const responses = [
+          "Can you tell me more about when these symptoms started?",
+          "It might help to monitor your temperature regularly.",
+          "Have you tried any remedies that helped?",
+          "You should consider speaking with a doctor if it persists.",
+          "Let me check my medical knowledge base...",
+          "You can also use our symptom checker for further clarity."
+        ];
+        const response = responses[Math.floor(Math.random() * responses.length)];
+        addChatMessage('ai', response);
+      }, 1500);
+    }
+
+    function sendQuick(text) {
+      document.getElementById('chat-input').value = text;
+      sendMessage();
+    }
+
+    const symptomsModal = new bootstrap.Modal(document.getElementById('symptomsModal'));
+
+    function showSymptomsModal() {
+      symptomsModal.show();
+    }
+
+    function analyzeSymptoms() {
+      const selected = Array.from(document.getElementById('modalSymptomSelect').selectedOptions).map(opt => opt.value);
+      const notes = document.getElementById('symptomNotes').value.trim();
+      if (selected.length === 0) {
+        alert("Please select at least one symptom.");
+        return;
+      }
+
+      symptomsModal.hide();
+      addChatMessage('user', `I have these symptoms: ${selected.join(', ')}${notes ? ' - ' + notes : ''}`);
+      showTypingIndicator();
+
+      setTimeout(() => {
+        removeTypingIndicator();
+        const response = `
+          Based on your symptoms, possible conditions include:
+          <ul>
+            <li><strong>Common Cold</strong> (65%)</li>
+            <li><strong>Influenza (Flu)</strong> (45%)</li>
+            <li><strong>COVID-19</strong> (30%)</li>
+          </ul>
+          Would you like more details about one of these?
+        `;
+        addChatMessage('ai', response);
+      }, 2000);
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAI - Disease Database</title>
+    <meta name="description" content="Comprehensive database of medical conditions and diseases">
+    <link rel="stylesheet" href="lovable.css">
+    <link rel="stylesheet" href="animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Additional styles for diseases page */
+        .disease-search {
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 2px solid #e0e0e0;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            padding-left: 50px;
+        }
+        
+        .search-container input:focus {
+            border-color: #4e73df;
+            box-shadow: 0 0 10px rgba(78, 115, 223, 0.2);
+            outline: none;
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .disease-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: #4e73df;
+            color: white;
+        }
+        
+        .disease-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .disease-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .disease-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .disease-card h3 {
+            color: #4e73df;
+            margin-bottom: 10px;
+        }
+        
+        .disease-card p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .disease-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 40px;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .disease-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-heartbeat heart-pulse"></i>
+                <span>MedAI</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="ai-chat.html" class="nav-link">
+                    <i class="fas fa-robot"></i> AI Chat
+                </a>
+                <a href="symptom-checker.html" class="nav-link">
+                    <i class="fas fa-stethoscope"></i> Symptom Checker
+                </a>
+                <a href="diseases.html" class="nav-link active">
+                    <i class="fas fa-database"></i> Diseases
+                </a>
+                <a href="chronic-diseases.html" class="nav-link">
+                    <i class="fas fa-activity"></i> Chronic Diseases
+                </a>
+                <a href="doctors.html" class="nav-link">
+                    <i class="fas fa-user-md"></i> Doctors
+                </a>
+            </div>
+            
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="features">
+        <div class="container">
+            <h1 class="section-title">Disease Database</h1>
+            <!-- <p class="section-subtitle">Comprehensive information about medical conditions, symptoms, and treatments</p> -->
+            
+            <div class="disease-search">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="disease-search" placeholder="Search diseases (e.g. Diabetes, Asthma)...">
+                </div>
+                
+                <div class="disease-categories">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn" data-category="infectious">Infectious</button>
+                    <button class="category-btn" data-category="chronic">Chronic</button>
+                    <button class="category-btn" data-category="genetic">Genetic</button>
+                    <button class="category-btn" data-category="mental">Mental Health</button>
+                    <button class="category-btn" data-category="cardiovascular">Cardiovascular</button>
+                    <button class="category-btn" data-category="respiratory">Respiratory</button>
+                </div>
+                
+                <div class="disease-list" id="disease-list">
+                    <!-- Diseases will be populated here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-heartbeat heart-pulse"></i>
+                        <span>MedAI</span>
+                    </div>
+                    <p>Advanced AI-powered medical diagnosis and consultation platform for better healthcare.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="symptom-checker.html">Symptom Checker</a></li>
+                        <li><a href="diseases.html">Disease Database</a></li>
+                        <li><a href="chronic-diseases.html">Chronic Care</a></li>
+                        <li><a href="doctors.html">Doctor Consultation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@medai.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Medical St, Health City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MedAI. All rights reserved. | Medical advice should not replace professional consultation.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/main.js"></script>
+    <script>
+    // Sample disease data
+    const diseases = [
+        {
+            id: 1,
+            name: "Type 2 Diabetes",
+            description: "A chronic condition that affects the way the body processes blood sugar (glucose).",
+            category: "chronic",
+            prevalence: "Common",
+            severity: "High",
+            symptoms: ["Increased thirst", "Frequent urination", "Fatigue", "Blurred vision"],
+            causes: ["Insulin resistance", "Genetics", "Obesity"],
+            treatments: ["Diet control", "Exercise", "Metformin", "Insulin therapy"]
+        },
+        {
+            id: 2,
+            name: "Influenza (Flu)",
+            description: "A viral infection that attacks the respiratory system — nose, throat and lungs.",
+            category: "infectious",
+            prevalence: "Seasonal",
+            severity: "Moderate",
+            symptoms: ["Fever", "Cough", "Body aches", "Fatigue"],
+            causes: ["Influenza virus"],
+            treatments: ["Rest", "Fluids", "Antiviral medications"]
+        }
+    ];
+
+    // DOM elements
+    const searchInput = document.getElementById('disease-search');
+    const diseaseList = document.getElementById('disease-list');
+    const categoryBtns = document.querySelectorAll('.category-btn');
+
+    // Filter state
+    let currentSearch = '';
+    let currentCategory = 'all';
+
+    // Function to render diseases
+    function renderDiseases() {
+        const filteredDiseases = diseases.filter(disease => {
+            const matchesSearch = disease.name.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                                  disease.description.toLowerCase().includes(currentSearch.toLowerCase());
+            const matchesCategory = currentCategory === 'all' || disease.category === currentCategory;
+            return matchesSearch && matchesCategory;
+        });
+
+        if (filteredDiseases.length === 0) {
+            diseaseList.innerHTML = '<div class="no-results"><i class="fas fa-search fa-2x"></i><h3>No diseases found</h3><p>Try adjusting your search or filter criteria</p></div>';
+            return;
+        }
+
+        diseaseList.innerHTML = filteredDiseases.map(disease => `
+            <div class="disease-card hover-lift" onclick="location.href='disease-detail.html?id=${disease.id}'">
+                <h3>${disease.name}</h3>
+                <p>${disease.description}</p>
+                <p><strong>Symptoms:</strong> ${disease.symptoms?.join(', ') || 'N/A'}</p>
+                <p><strong>Causes:</strong> ${disease.causes?.join(', ') || 'N/A'}</p>
+                <p><strong>Treatments:</strong> ${disease.treatments?.join(', ') || 'N/A'}</p>
+                <div class="disease-meta">
+                    <span><i class="fas fa-tag"></i> ${disease.category.charAt(0).toUpperCase() + disease.category.slice(1)}</span>
+                    <span><i class="fas fa-chart-bar"></i> ${disease.prevalence}</span>
+                    <span><i class="fas fa-exclamation-triangle"></i> ${disease.severity}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Event listeners
+    searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        renderDiseases();
+    });
+
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentCategory = btn.dataset.category;
+            renderDiseases();
+        });
+    });
+
+    // Initial render
+    renderDiseases();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symptom Checker - MedAI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #4e73df;
+    }
+
+    .heart-pulse {
+      margin-right: 0.5rem;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #666;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: #4e73df;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Main Content */
+    .symptom-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #4e73df, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-description {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    /* Search Container */
+    .search-container {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 16px;
+      border: 2px solid #e0e6ed;
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .search-input:focus {
+      border-color: #4e73df;
+      box-shadow: 0 0 0 4px rgba(78, 115, 223, 0.1);
+    }
+
+    .search-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 2px solid #e0e6ed;
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      display: none;
+    }
+
+    .suggestion-item {
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border-bottom: 1px solid #f8f9fc;
+    }
+
+    .suggestion-item:hover,
+    .suggestion-item.highlighted {
+      background: #f8f9fc;
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Selected Symptoms */
+    .selected-symptoms {
+      margin-bottom: 2rem;
+    }
+
+    .selected-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #4e73df;
+    }
+
+    .symptom-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      min-height: 60px;
+      padding: 10px;
+      border: 2px dashed #e0e6ed;
+      border-radius: 12px;
+      align-items: center;
+    }
+
+    .symptom-tag {
+      background: linear-gradient(45deg, #4e73df, #764ba2);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .remove-tag {
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      transition: background 0.2s ease;
+    }
+
+    .remove-tag:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .empty-state {
+      color: #999;
+      font-style: italic;
+      text-align: center;
+    }
+
+    /* Analyze Button */
+    .analyze-btn {
+      background: linear-gradient(45deg, #4e73df, #764ba2);
+      color: white;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: block;
+      margin: 0 auto;
+      min-width: 200px;
+    }
+
+    .analyze-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(78, 115, 223, 0.3);
+    }
+
+    .analyze-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Results */
+    .report-results {
+      margin-top: 30px;
+    }
+
+    .report-card {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      border-left: 4px solid #4e73df;
+      transition: transform 0.3s ease;
+    }
+
+    .report-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .report-card h3 {
+      margin-top: 0;
+      color: #4e73df;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+    }
+
+    .match-percentage {
+      background: linear-gradient(45deg, #4e73df, #764ba2);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+
+    .report-card p {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .severity-high { color: #e74c3c; font-weight: 600; }
+    .severity-moderate { color: #f39c12; font-weight: 600; }
+    .severity-low { color: #27ae60; font-weight: 600; }
+
+    /* Footer */
+    .footer {
+      background: #2d3436;
+      color: white;
+      padding: 3rem 0 1rem;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 0 2rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #4e73df;
+      margin-bottom: 1rem;
+    }
+
+    .footer-section h4 {
+      margin-bottom: 1rem;
+      color: #4e73df;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-section ul li a {
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section ul li a:hover {
+      color: #4e73df;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #555;
+      color: #bbb;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-menu {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .symptom-section {
+        margin: 20px;
+        padding: 1.5rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <i class="fas fa-heartbeat heart-pulse"></i>
+        <span>MedAI</span>
+      </div>
+      <div class="nav-menu">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="ai-chat.html" class="nav-link"><i class="fas fa-robot"></i> AI Chat</a>
+        <a href="symptom-checker.html" class="nav-link active"><i class="fas fa-stethoscope"></i> Symptom Checker</a>
+        <a href="diseases.html" class="nav-link"><i class="fas fa-database"></i> Diseases</a>
+        <a href="chronic-diseases.html" class="nav-link"><i class="fas fa-activity"></i> Chronic Diseases</a>
+        <a href="doctors.html" class="nav-link"><i class="fas fa-user-md"></i> Doctors</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Symptom Checker Section -->
+  <section class="symptom-section">
+    <h1 class="section-title">Check Your Symptoms</h1>
+    <p class="section-description">Type your symptoms below to get instant suggestions and click to select them.</p>
+
+    <!-- Search Container -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="symptom-search" 
+        class="search-input" 
+        placeholder="Type symptoms here... (e.g., fever, headache, cough)"
+        autocomplete="off"
+      >
+      <div id="search-suggestions" class="search-suggestions"></div>
+    </div>
+
+    <!-- Selected Symptoms -->
+    <div class="selected-symptoms">
+      <h3 class="selected-title">Selected Symptoms:</h3>
+      <div id="symptom-tags" class="symptom-tags">
+        <div class="empty-state">No symptoms selected yet. Start typing above to add symptoms.</div>
+      </div>
+    </div>
+
+    <button class="analyze-btn" id="analyze-btn" onclick="analyzeSymptoms()" disabled>
+      <i class="fas fa-search"></i> Analyze Symptoms
+    </button>
+
+    <div class="report-results" id="report-results"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-brand">
+          <i class="fas fa-heartbeat heart-pulse"></i>
+          <span>MedAI</span>
+        </div>
+        <p>Advanced AI-powered medical diagnosis and consultation platform for better healthcare.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="symptom-checker.html">Symptom Checker</a></li>
+          <li><a href="diseases.html">Disease Database</a></li>
+          <li><a href="chronic-diseases.html">Chronic Care</a></li>
+          <li><a href="doctors.html">Doctor Consultation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <ul>
+          <li><i class="fas fa-envelope"></i> info@medai.com</li>
+          <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+          <li><i class="fas fa-map-marker-alt"></i> 123 Medical St, Health City</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 MedAI. All rights reserved. | Medical advice should not replace professional consultation.</p>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    // Comprehensive symptom database
+    const symptoms = [
+      'Fever', 'Headache', 'Cough', 'Fatigue', 'Nausea', 'Dizziness', 'Chest pain', 'Shortness of breath',
+      'Sore throat', 'Runny nose', 'Muscle aches', 'Joint pain', 'Abdominal pain', 'Vomiting', 'Diarrhea',
+      'Constipation', 'Loss of appetite', 'Weight loss', 'Weight gain', 'Insomnia', 'Excessive sleepiness',
+      'Skin rash', 'Itching', 'Swelling', 'Bruising', 'Bleeding', 'Heart palpitations', 'High blood pressure',
+      'Low blood pressure', 'Difficulty swallowing', 'Hoarseness', 'Confusion', 'Memory problems',
+      'Anxiety', 'Depression', 'Mood swings', 'Tremors', 'Seizures', 'Vision problems', 'Hearing problems',
+      'Ear pain', 'Tooth pain', 'Back pain', 'Neck pain', 'Leg pain', 'Arm pain', 'Numbness', 'Tingling',
+      'Difficulty breathing', 'Wheezing', 'Snoring', 'Night sweats', 'Cold sweats', 'Hot flashes',
+      'Frequent urination', 'Painful urination', 'Blood in urine', 'Irregular periods', 'Heavy periods',
+      'Missed periods', 'Pelvic pain', 'Breast pain', 'Lumps', 'Hair loss', 'Dry skin', 'Oily skin'
+    ];
+
+    let selectedSymptoms = [];
+    let currentHighlightIndex = -1;
+    let filteredSuggestions = [];
+
+    const searchInput = document.getElementById('symptom-search');
+    const suggestionsContainer = document.getElementById('search-suggestions');
+    const symptomTags = document.getElementById('symptom-tags');
+    const analyzeBtn = document.getElementById('analyze-btn');
+
+    // Search input event listeners
+    searchInput.addEventListener('input', handleSearch);
+    searchInput.addEventListener('keydown', handleKeyDown);
+    searchInput.addEventListener('focus', () => {
+      // Show suggestions again if there's text and filtered results
+      if (searchInput.value.trim() && filteredSuggestions.length > 0) {
+        showSuggestions(filteredSuggestions);
+      }
+    });
+    
+    // Use mousedown instead of click for better reliability
+    document.addEventListener('mousedown', (e) => {
+      if (!suggestionsContainer.contains(e.target) && !searchInput.contains(e.target)) {
+        hideSuggestions();
+      }
+    });
+
+    function handleSearch(e) {
+      const query = e.target.value.trim().toLowerCase();
+      
+      if (query.length === 0) {
+        hideSuggestions();
+        return;
+      }
+
+      filteredSuggestions = symptoms.filter(symptom => 
+        symptom.toLowerCase().includes(query) && 
+        !selectedSymptoms.includes(symptom)
+      );
+
+      if (filteredSuggestions.length > 0) {
+        showSuggestions(filteredSuggestions);
+      } else {
+        hideSuggestions();
+      }
+      
+      currentHighlightIndex = -1;
+    }
+
+    function handleKeyDown(e) {
+      if (!suggestionsContainer.style.display || suggestionsContainer.style.display === 'none') {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          // If no suggestions showing, try to add the typed text as a symptom
+          const query = searchInput.value.trim();
+          if (query && !selectedSymptoms.includes(query)) {
+            addSymptom(query);
+            searchInput.value = '';
+          }
+        }
+        return;
+      }
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          currentHighlightIndex = Math.min(currentHighlightIndex + 1, filteredSuggestions.length - 1);
+          updateHighlight();
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          currentHighlightIndex = Math.max(currentHighlightIndex - 1, -1);
+          updateHighlight();
+          break;
+        case 'Enter':
+          e.preventDefault();
+          if (currentHighlightIndex >= 0 && filteredSuggestions[currentHighlightIndex]) {
+            selectSuggestion(filteredSuggestions[currentHighlightIndex]);
+          } else if (searchInput.value.trim()) {
+            // If no highlighted item but there's text, add it
+            const query = searchInput.value.trim();
+            if (!selectedSymptoms.includes(query)) {
+              addSymptom(query);
+              searchInput.value = '';
+              hideSuggestions();
+            }
+          }
+          break;
+        case 'Escape':
+          hideSuggestions();
+          currentHighlightIndex = -1;
+          break;
+      }
+    }
+
+    function showSuggestions(suggestions) {
+      suggestionsContainer.innerHTML = suggestions.map((symptom, index) => 
+        `<div class="suggestion-item" data-symptom="${symptom}" data-index="${index}">${symptom}</div>`
+      ).join('');
+      
+      // Add click event listeners to each suggestion
+      suggestionsContainer.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('mousedown', (e) => {
+          e.preventDefault(); // Prevent input blur
+          const symptom = e.target.getAttribute('data-symptom');
+          selectSuggestion(symptom);
+        });
+        
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const symptom = e.target.getAttribute('data-symptom');
+          selectSuggestion(symptom);
+        });
+      });
+      
+      suggestionsContainer.style.display = 'block';
+      currentHighlightIndex = -1;
+    }
+
+    function hideSuggestions() {
+      suggestionsContainer.style.display = 'none';
+      currentHighlightIndex = -1;
+    }
+
+    function updateHighlight() {
+      const items = suggestionsContainer.querySelectorAll('.suggestion-item');
+      items.forEach((item, index) => {
+        item.classList.toggle('highlighted', index === currentHighlightIndex);
+      });
+    }
+
+    function selectSuggestion(symptom) {
+      if (!symptom) return;
+      
+      addSymptom(symptom);
+      searchInput.value = '';
+      hideSuggestions();
+      
+      // Refocus input for continued typing
+      setTimeout(() => {
+        searchInput.focus();
+      }, 10);
+    }
+
+    function addSymptom(symptom) {
+      if (!symptom || selectedSymptoms.includes(symptom)) return;
+      
+      selectedSymptoms.push(symptom);
+      updateSymptomTags();
+      updateAnalyzeButton();
+      
+      // Clear any existing search
+      filteredSuggestions = [];
+    }
+
+    function removeSymptom(symptom) {
+      selectedSymptoms = selectedSymptoms.filter(s => s !== symptom);
+      updateSymptomTags();
+      updateAnalyzeButton();
+    }
+
+    function updateSymptomTags() {
+      if (selectedSymptoms.length === 0) {
+        symptomTags.innerHTML = '<div class="empty-state">No symptoms selected yet. Start typing above to add symptoms.</div>';
+      } else {
+        symptomTags.innerHTML = selectedSymptoms.map(symptom => 
+          `<div class="symptom-tag">
+            ${symptom}
+            <button class="remove-tag" onclick="removeSymptom('${symptom}')" title="Remove ${symptom}">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>`
+        ).join('');
+      }
+    }
+
+    function updateAnalyzeButton() {
+      analyzeBtn.disabled = selectedSymptoms.length === 0;
+    }
+
+    function analyzeSymptoms() {
+      if (selectedSymptoms.length === 0) {
+        alert('Please select at least one symptom.');
+        return;
+      }
+
+      const reportContainer = document.getElementById('report-results');
+      
+      // Show loading state
+      reportContainer.innerHTML = '<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #4e73df;"></i><p style="margin-top: 1rem;">Analyzing symptoms...</p></div>';
+
+      // Simulate API call delay
+      setTimeout(() => {
+        const mockDiseases = generateMockResults(selectedSymptoms);
+        
+        reportContainer.innerHTML = mockDiseases.map(d => `
+          <div class="report-card">
+            <h3>${d.name} <span class="match-percentage">${d.match}% match</span></h3>
+            <p><strong>Description:</strong> ${d.description}</p>
+            <p><strong>Severity:</strong> <span class="severity-${d.severity.toLowerCase()}">${d.severity}</span></p>
+            <p><strong>Common Symptoms:</strong> ${d.commonSymptoms.join(', ')}</p>
+            <p><strong>Recommended Actions:</strong> ${d.treatments.join(', ')}</p>
+            ${d.severity === 'High' ? '<p style="color: #e74c3c; font-weight: 600; margin-top: 10px;"><i class="fas fa-exclamation-triangle"></i> Seek immediate medical attention</p>' : ''}
+          </div>
+        `).join('');
+      }, 1500);
+    }
+
+    function generateMockResults(symptoms) {
+      const diseases = [
+        {
+          name: "Influenza (Flu)",
+          description: "A viral infection affecting the respiratory system.",
+          severity: "Moderate",
+          commonSymptoms: ["Fever", "Headache", "Muscle aches", "Fatigue", "Cough"],
+          treatments: ["Rest", "Hydration", "Antiviral drugs", "Symptom management"]
+        },
+        {
+          name: "COVID-19",
+          description: "A contagious disease caused by the SARS-CoV-2 virus.",
+          severity: "High",
+          commonSymptoms: ["Fever", "Cough", "Shortness of breath", "Fatigue", "Loss of appetite"],
+          treatments: ["Isolation", "Supportive care", "Consult healthcare provider"]
+        },
+        {
+          name: "Common Cold",
+          description: "A mild viral infection of the nose, throat, sinuses, and upper airways.",
+          severity: "Low",
+          commonSymptoms: ["Runny nose", "Sore throat", "Cough", "Headache"],
+          treatments: ["Rest", "Fluids", "Over-the-counter medications"]
+        },
+        {
+          name: "Migraine",
+          description: "A severe headache disorder often accompanied by other symptoms.",
+          severity: "Moderate",
+          commonSymptoms: ["Headache", "Nausea", "Dizziness", "Vision problems"],
+          treatments: ["Pain medication", "Rest in dark room", "Consult neurologist"]
+        },
+        {
+          name: "Gastroenteritis",
+          description: "Inflammation of the stomach and intestines.",
+          severity: "Moderate",
+          commonSymptoms: ["Nausea", "Vomiting", "Diarrhea", "Abdominal pain", "Fever"],
+          treatments: ["Hydration", "Rest", "BRAT diet", "Medical consultation if severe"]
+        }
+      ];
+
+      // Calculate match percentage based on symptom overlap
+      return diseases.map(disease => {
+        const matchingSymptoms = symptoms.filter(symptom => 
+          disease.commonSymptoms.some(ds => ds.toLowerCase().includes(symptom.toLowerCase()) || symptom.toLowerCase().includes(ds.toLowerCase()))
+        );
+        const matchPercentage = Math.max(25, Math.min(95, Math.round((matchingSymptoms.length / Math.max(symptoms.length, 3)) * 100) + Math.random() * 20 - 10));
+        
+        return {
+          ...disease,
+          match: matchPercentage
+        };
+      }).sort((a, b) => b.match - a.match).slice(0, 3);
+    }
+
+    // Initialize
+    updateSymptomTags();
+    updateAnalyzeButton();
+  </script>
+</body>
+</html>
