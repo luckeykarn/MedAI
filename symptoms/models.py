@@ -24,9 +24,8 @@ class Symptom(models.Model):
 class DiseaseSymptom(models.Model):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE, related_name='symptoms')
     symptom = models.ForeignKey(Symptom, on_delete=models.CASCADE)
-    frequency_score = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])
-    specificity_score = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])
-
+    frequency_score = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)],null=True,blank = True) # 90% of patients with Type 2 Diabetes have this symptom
+    specificity_score = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)],null=True,blank = True) # The symptom is highly specific to this disease
 
     class Meta:
         unique_together = [['disease', 'symptom']]

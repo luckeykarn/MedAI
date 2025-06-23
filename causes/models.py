@@ -15,5 +15,6 @@ class DiseaseCause(models.Model):
 
     def __str__(self):
         return self.disease.name + "-" + self.cause.name
+    
     class Meta:
         unique_together = [['disease', 'cause']]

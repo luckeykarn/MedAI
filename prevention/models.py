@@ -16,5 +16,7 @@ class DiseasePrevention(models.Model):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE, related_name='preventions')
     prevention = models.ForeignKey(Prevention, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.disease.name + "-" + self.prevention.name
     class Meta:
         unique_together = [['disease', 'prevention']]
