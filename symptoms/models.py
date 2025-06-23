@@ -27,5 +27,6 @@ class DiseaseSymptom(models.Model):
     frequency_score = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])
     specificity_score = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])
 
+
     class Meta:
         unique_together = [['disease', 'symptom']]

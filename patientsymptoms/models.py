@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class PatientSymptom(models.Model):
-    patient_case = models.ForeignKey(PatientCase, on_delete=models.CASCADE)
+    patient = models.ForeignKey(PatientCase, on_delete=models.CASCADE)
     symptom = models.ForeignKey(Symptom, on_delete=models.CASCADE)
     severity = models.CharField(max_length=20, choices=[
         ('mild', 'Mild'),

@@ -1,7 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
+from hospital.models import Hospital
+from doctor.models import Doctor
+from symptoms.models import Symptom
+from diseases.models import Disease
 
 # Create your models here.
-
 
 # ===============================
 # PATIENT CASES & PRESCRIPTIONS
