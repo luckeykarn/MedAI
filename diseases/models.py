@@ -2,12 +2,14 @@ from django.db import models
 
 # Create your models here.
 class Disease(models.Model):
+    public_id = models.CharField(max_length=100, unique=True)
+    disease_name = models.CharField(max_length=255)
+    disease_ontology_description = models.TextField()
 
 
-    sn = models.CharField(max_length=100, unique=True)
-    name = models.CharField(max_length=255)  
-    description = models.TextField()  
-    disease_ontology_description = models.TextField() 
+class DiseaseDescription(models.Model):
+    description = models.TextField()
+    
     uniprot = models.CharField(max_length=255) 
     uniprot_description = models.TextField()  
     mondo_id = models.CharField(max_length=100)  # Mondo ID (disease classification)
