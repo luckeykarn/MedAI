@@ -38,16 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
-    'diseases',
-    'symptoms',
     'causes',
-    'treatments_prevention',
-    'risk_factors',
-    'characteristics',
-    'lab_report',
-   
-
-
+    'diseases',
+    'doctor',
+    'hospital',
+    'medicine',
+    'patientcase',
+    'patientsymptoms',
+    'prescription',
+    'prevention',
+    'symptoms',
+    'treatments',
 ]
 
 MIDDLEWARE = [
