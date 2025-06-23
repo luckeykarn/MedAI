@@ -13,5 +13,7 @@ class DiseaseCause(models.Model):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE, related_name='causes')
     cause = models.ForeignKey(Cause, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.disease.name + "-" + self.cause.name
     class Meta:
         unique_together = [['disease', 'cause']]
