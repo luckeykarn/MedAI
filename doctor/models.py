@@ -8,9 +8,9 @@ class Speciality(models.Model):
 
 
 class Doctor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    speciality = models.ForeignKey(Speciality)
-    hospital = models.ForeignKey(Hospital, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="doctor")
+    speciality = models.ForeignKey(Speciality,on_delete=models.SET_NULL,null=True)
+    hospital = models.ForeignKey(Hospital, on_delete=models.SET_NULL, null=True, blank=True,related_name="doctors")
     description = models.TextField()
 
     def __str__(self):

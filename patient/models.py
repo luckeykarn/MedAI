@@ -22,8 +22,8 @@ class PatientCase(models.Model):
         ('other', 'Other'),
         ('unknown', 'Unknown')
     ])
-    reported_symptoms = models.ManyToManyField(Symptom, through='PatientSymptom')
-    suggested_diseases = models.ManyToManyField(Disease, through='AIDiagnosis')
+    reported_symptoms = models.ManyToManyField(Symptom, through='patientsymptoms.PatientSymptom')
+    suggested_diseases = models.ManyToManyField(Disease, through='diagnosis.AIDiagnosis')
     is_emergency = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

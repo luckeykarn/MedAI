@@ -12,10 +12,10 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class AIDiagnosis(models.Model):
     patient_case = models.ForeignKey(PatientCase,on_delete=models.CASCADE,related_name="diagnosis")
-    disease = models.ManyToManyField(Disease,on_delete=models.CASCADE,related_name="diagnosis")
-    confidence_score = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])
+    disease = models.ForeignKey(Disease,on_delete=models.CASCADE,related_name="diagnosis")
+    confidence_score = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1.0)]) #by ai model
     explanation = models.TextField(blank=True, null=True)
-    rank = models.PositiveIntegerField()
+    rank = models.PositiveIntegerField() #by ai
 
     class Meta:
         unique_together = [['patient_case', 'disease']]
